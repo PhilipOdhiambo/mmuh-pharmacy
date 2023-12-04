@@ -1,1 +1,45 @@
-<p>home-page works!</p>
+
+<div class="container my-5">
+    <p class="bg-primary text-white">Chose the report type</p>
+    <nav>
+       <div class="nav nav-tabs" id="nav-tab" role="tablist">
+
+        <button class="nav-link " id="nav-prescription-tab" data-bs-toggle="tab" data-bs-target="#nav-prescription" type="button" 
+            role="tab" aria-controls="nav-home" aria-selected="true">
+            Prescriptions
+        </button>
+
+        <button class="nav-link" id="nav-tsheet-tab" data-bs-toggle="tab" data-bs-target="#nav-tsheet" type="button"
+            role="tab" aria-controls="nav-tsheet" aria-selected="false">
+            T.sheet Orders
+        </button>
+
+        <button class="nav-link" id="nav-emergency-tab" data-bs-toggle="tab" data-bs-target="#nav-emergency" type="button" 
+        role="tab" aria-controls="nav-emergency" aria-selected="false">
+            Emergency Orders
+        </button>
+
+       </div> 
+    </nav>
+
+
+    <div class="tab-content" id="nav-tabContent">
+
+        <div class="tab-pane fade show  p-3" id="nav-prescription" role="tabpanel" aria-labelledby="nav-prescription-tab">
+            <h2>Prescriptions</h2>
+            <app-prescriptions/>            
+        </div>
+
+        <div class="tab-pane fade p-3" id="nav-tsheet" role="tabpanel" aria-labelledby="nav-tsheet-tab">
+            <h2>Treatment Sheets</h2>
+            <app-tsheet-orders></app-tsheet-orders>
+        </div>
+
+        <div class="tab-pane fade p-3" id="nav-emergency" role="tabpanel" aria-labelledby="nav-emergency-tab">
+            <h2>Emergency</h2>
+            <app-emergency-orders></app-emergency-orders>
+        </div>
+
+    </div>
+
+</div>

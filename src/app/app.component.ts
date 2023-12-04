@@ -21,6 +21,6 @@ export class AppComponent implements OnInit {
   data:any;
   constructor(private dataService:AppService){}
   ngOnInit() {
-    this.dataService.fetchData().subscribe(res => console.log(res))
+    // this.dataService.fetchData().subscribe(res => console.log(res))
   }
 }
