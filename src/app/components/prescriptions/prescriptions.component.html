@@ -1,1 +1,75 @@
-<p>prescriptions works!</p>
+<div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th colspan="2">
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addNewModal">Add new</button>
+                </th>
+                <th></th>
+                <th></th>
+                <th colspan="2">Billing Turnaround</th>
+                <th colspan="2">Dispensing Turnaround</th>
+
+            </tr>
+            <tr>
+                <th>Presc. No</th>
+                <th>No. Items Ordered</th>
+                <th>No. Items Availabe</th>
+                <th>Time-in</th>
+                <th>Time-out</th>
+                <th>time-in</th>
+                <th>time-out</th>
+                <th></th>
+
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>p3</td>
+                <td>5</td>
+                <td>3</td>
+                <td><button class="btn" title="click to Edit" data-bs-toggle="modal" data-bs-target="#updateModal"
+                    (click)="timeModelTitle='Bill Time in'">12:45</button></td>
+
+                <td><button class="btn" title="click to Edit" data-bs-toggle="modal" data-bs-target="#updateModal"
+                    (click)="timeModelTitle='Bill Time out'" >12:50</button></td>
+
+                <td><button class="btn" title="click to Edit" data-bs-toggle="modal" data-bs-target="#updateModal"
+                    (click)="timeModelTitle='Dispense Time in'">1:15</button></td>
+
+                <td><button class="btn" title="click to Edit" data-bs-toggle="modal" data-bs-target="#updateModal"
+                    (click)="timeModelTitle='Dispense Time out'">1:20</button></td>
+                <td><a href="#" class="bi bi-trash"></a></td>
+            </tr>
+        </tbody>
+    </table>
+
+
+    <!-- Add New Modal -->
+    <div class="modal fade" id="addNewModal" data-bs-backdrop="static" data-bs-keyboard="false"  tabindex="-1" aria-labelledby="addNewModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addNewModalLabel">Add New</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    ....
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- update Modal -->
+    <div class="modal fade" id="updateModal" data-bs-backdrop="static" data-bs-keyboard="false"  tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <app-time-edit-modal [title]="timeModelTitle" [cartegory]="cartegory"></app-time-edit-modal>
+        </div>
+    </div>
+
+
+</div>
