@@ -1,9 +1,10 @@
 import { Component, OnInit} from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule} from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { HomePageComponent } from './pages/home-page/home-page.component';
 import { BincardPageComponent } from './pages/bincard-page/bincard-page.component';
 import { AppService } from './app.service';
+
 
 
 @Component({
