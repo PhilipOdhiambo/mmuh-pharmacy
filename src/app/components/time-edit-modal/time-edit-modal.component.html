@@ -1,10 +1,23 @@
 <div class="modal-content">
     <div class="modal-header">
-        <h5 class="modal-title" id="updateModalLabel">{{title}}</h5>
+        <h5 class="modal-title" id="updateModalLabel">Update Process</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
     </div>
     <div class="modal-body">
-        ....
+        <form action="">
+            <div>
+                <label for="">Billing Start</label> <input #billStart type="datetime" placeholder="Enter time billing start time">
+            </div>
+            <div>
+                <label for="">Billing End</label> <input #billEnd type="datetime" placeholder="Enter time billing end time">
+            </div>
+            <div>
+                <label for="">Dispense Start</label> <input #dispStart type="datetime" placeholder="Enter time dispensing start time">
+            </div>
+            <div>
+                <label for="">Dispense Start</label> <input dispStart type="datetime" placeholder="Enter time dispensing start time">
+            </div>
+        </form>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
