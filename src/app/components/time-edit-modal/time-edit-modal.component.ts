@@ -1,4 +1,4 @@
-import { Component,OnChanges,ElementRef,Input, ViewChild } from '@angular/core';
+import { Component,OnChanges,ElementRef,Input, ViewChild, EventEmitter, Output, OnInit, AfterViewInit } from '@angular/core';
 
 @Component({
   selector: 'app-time-edit-modal',
@@ -7,40 +7,50 @@ import { Component,OnChanges,ElementRef,Input, ViewChild } from '@angular/core';
   templateUrl: './time-edit-modal.component.html',
   styleUrl: './time-edit-modal.component.css'
 })
-export class TimeEditModalComponent implements OnChanges {
-  @Input('activeRow')
-  activeRow?:any;
+export class TimeEditModalComponent implements OnInit,AfterViewInit {
+  @Input() activeRow?:any;
 
-  @ViewChild('billStart')
-  billStart!:ElementRef<HTMLInputElement>
+  @ViewChild('billTimein') billStart!:ElementRef<HTMLInputElement>
 
-  @ViewChild('billEnd')
-  billEnd!:ElementRef<HTMLInputElement>
+  @ViewChild('billTimeout') billEnd!:ElementRef<HTMLInputElement>
 
-  @ViewChild('dispStart')
-  dispStart!:ElementRef<HTMLInputElement>
+  @ViewChild('dispenseTimein') dispStart!:ElementRef<HTMLInputElement>
 
-  @ViewChild('dispEnd')
-  dispEnd!:ElementRef<HTMLInputElement>
+  @ViewChild('dispenseTimeout') dispEnd!:ElementRef<HTMLInputElement>
 
-  ngOnChanges(): void {
-    if (!this.activeRow) {
-      return
-    }
+  @Output() onModalClose = new EventEmitter()
+
+  constructor(private element:ElementRef) {
+
+  }
+
+  ngOnInit(): void {
+  }
+
+  ngAfterViewInit(): void {
+      
     switch(this.activeRow.editField) {
-      case 'billStart':
+      case 'billTimein':
+        this.billStart.nativeElement.scrollIntoView()
         this.billStart.nativeElement.focus();
         break;
-      case 'billEnd':
-        this.billStart.nativeElement.focus();
+      case 'billTimeout':
+        this.billEnd.nativeElement.scrollIntoView()
+        this.billEnd.nativeElement.focus();
         break;
-      case 'dispStart':
-        this.billStart.nativeElement.focus();
+      case 'dispenseTimein':
+        this.dispStart.nativeElement.scrollIntoView()
+        this.dispStart.nativeElement.focus();
         break;
-      case 'dispEnd':
-        this.billStart.nativeElement.focus();
+      case 'dispenseTimeout':
+        this.dispEnd.nativeElement.scrollIntoView()
+        this.dispEnd.nativeElement.focus();
         break;
     }
+  }
+
+  close() {
+    this.onModalClose.emit(true)
   }
   
 

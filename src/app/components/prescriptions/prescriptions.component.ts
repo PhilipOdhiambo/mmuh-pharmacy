@@ -1,24 +1,30 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { TimeEditModalComponent } from '../time-edit-modal/time-edit-modal.component';
 import { AppService } from '../../app.service';
 import {map} from 'rxjs/operators';
-import { DatePipe } from '@angular/common';
+import { DatePipe, NgIf } from '@angular/common';
 import { PrescriptionsNewComponent } from '../prescriptions-new/prescriptions-new.component';
+
+export interface ActiveRowI {
+  prescription:any,
+  editField:any
+}
 
 @Component({
   selector: 'app-prescriptions',
   standalone: true,
   imports: [
     TimeEditModalComponent,
-    DatePipe,PrescriptionsNewComponent
+    DatePipe,PrescriptionsNewComponent,NgIf
   ],
   templateUrl: './prescriptions.component.html',
   styleUrl: './prescriptions.component.css'
 })
-export class PrescriptionsComponent {
+export class PrescriptionsComponent implements OnInit{
 
-  activeRow:any
+  activeRow!:ActiveRowI
   prescriptions:any = []
+  showUpdateModal = false
   constructor(private dataService:AppService) {}
 
   ngOnInit() {
@@ -30,8 +36,13 @@ export class PrescriptionsComponent {
   }
 
   activePresc(editField:string,presc:any){
-    this.activeRow.prescript = presc
-    this.activeRow.editField = editField
+  
+    this.activeRow = {editField:editField,prescription:presc}
+    this.showUpdateModal = true
+  }
+
+  closeModal(event:Event) {
+    this.showUpdateModal = false
   }
 
 }

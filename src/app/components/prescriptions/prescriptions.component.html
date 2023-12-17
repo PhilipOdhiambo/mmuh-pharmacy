@@ -29,17 +29,17 @@
                     <td>{{presc.tallyNo}}</td>
                     <td>{{presc.itemsOrdered}}</td>
                     <td>{{presc.itemsAvailable}}</td>
-                    <td><button class="btn" title="click to Edit" data-bs-toggle="modal" data-bs-target="#updateModal"
-                        (click)="activePresc('BillTimein',presc)">{{presc.billStart | date:'h:mm'}}</button></td>
+                    <td><button class="btn" title="click to Edit" 
+                        (click)="activePresc('billTimein',presc)">{{presc.billStart | date:'h:mm'}}</button></td>
     
-                    <td><button class="btn" title="click to Edit" data-bs-toggle="modal" data-bs-target="#updateModal"
-                        (click)="activePresc('BillTimeout',presc)" >{{presc.billEnd | date:'h:mm'}}</button></td>
+                    <td><button class="btn" title="click to Edit" 
+                        (click)="activePresc('billTimeout',presc)" >{{presc.billEnd | date:'h:mm'}}</button></td>
     
-                    <td><button class="btn" title="click to Edit" data-bs-toggle="modal" data-bs-target="#updateModal"
-                        (click)="activePresc('DispenseTimein',presc)">{{presc.dispenseStart | date:'h:mm'}}</button></td>
+                    <td><button class="btn" title="click to Edit" 
+                        (click)="activePresc('dispenseTimein',presc)">{{presc.dispenseStart | date:'h:mm'}}</button></td>
     
-                    <td><button class="btn" title="click to Edit" data-bs-toggle="modal" data-bs-target="#updateModal"
-                        (click)="activePresc('DispenseTimein',presc)">{{presc.dispenseEnd| date:'h:mm'}}</button></td>
+                    <td><button class="btn" title="click to Edit" 
+                        (click)="activePresc('dispenseTimeout',presc)">{{presc.dispenseEnd| date:'h:mm'}}</button></td>
                     <td><a href="#" class="bi bi-trash"></a></td>
                 </tr>
             }
@@ -53,11 +53,10 @@
     </div>
 
     <!-- update Modal -->
-    <div class="modal fade" id="updateModal" data-bs-backdrop="static" data-bs-keyboard="false"  tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <app-time-edit-modal [activeRow]="activeRow"></app-time-edit-modal>
-        </div>
-    </div>
-
+    <ng-template [ngIf]="showUpdateModal">
+        <app-time-edit-modal  [activeRow]="activeRow"
+        (onModalClose)="closeModal($event)"
+        ></app-time-edit-modal>
+    </ng-template>    
 
 </div>
