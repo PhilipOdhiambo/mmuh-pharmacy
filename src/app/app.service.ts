@@ -7,7 +7,7 @@ import { map } from 'rxjs/operators'
   providedIn: 'root'
 })
 export class AppService {
-  private url = 'https://script.google.com/macros/s/AKfycbyvi6qXrDFHAtJmlePVk5S5gWv9v6y2IP0T0x86HwlroaN0eSUar1VEBc2nABWd5oF7mg/exec?'
+  private url = 'https://script.google.com/macros/s/AKfycbzPJ75D_tyT18zLgJP4oedBCY9AekwO1GkaztuODzpJJhx12hbopUFs1XrfwUAuR-iPJQ/exec?'
 
   constructor(private http: HttpClient) { }
   doGet(params: string): Observable<any> {
@@ -15,13 +15,12 @@ export class AppService {
   }
 
   doPost(sheetName:string, method: string, data: any) {
-    this.http.post(this.url + sheetName + '&' + method, JSON.stringify(data)).subscribe(res => res)
+    this.http.post(this.url + 'sheetName=' + sheetName + '&method=' + method, JSON.stringify(data)).subscribe(res => console.log(res))
   }
 
   getUtils() {
     const request$ = this.doGet('utils=true').pipe(take(1))
     return lastValueFrom(request$).then(data => {
-      // data.nn = 'dff'
       return data;
     })
   }
@@ -52,6 +51,10 @@ export class AppService {
       }
       return parseInt(obj.tallyNo.replace(/\D/g, '')) + 1
     })
+  }
+
+  saveOutpatient(opdDoc:any) {
+    this.doPost('outpatients','update',[opdDoc])
   }
 
 }

@@ -1,39 +1,36 @@
 <div class="app-modal-backdrop "  tabindex="-1" >
 
-
 </div>
-
 <div class="modal-dialog">
     <div class="modal-content">
         <div class="modal-header">
             <h5 class="modal-title">Update Process</h5>
-            <button type="button" class="btn-close" aria-label="Close"></button>
+            <button type="button" class="btn-close" (click)="close()" aria-label="Close"></button>
         </div>
         <div class="modal-body" style="height: 50px; overflow-y: auto;">
             <form action="">
                 <table >
                     <tr class="py-2">
                         <th><label class="me-2" for="">Billing Start: </label></th>
-                        <td><input #billTimein type="datetime-local" placeholder="Billing start time"></td>
-                        <td><button class="btn btn-primary">Now</button></td>
+                        <td><input class="form-control" #billTimein type="datetime-local" 
+                            [(ngModel)]="activeRow.prescription.billStart" name="billStart" placeholder="Billing start time"></td>
                     </tr>
                     <tr class="py-2">
                         <th><label class="me-2" for="">Billing End: </label></th>
-                        <td><input #billTimeout type="datetime-local" placeholder="Billing end time"></td>
-                        <td><button class="btn btn-primary">Now</button></td>
+                        <td><input class="form-control" #billTimeout type="datetime-local" 
+                            [(ngModel)]="activeRow.prescription.billEnd" name="billEnd" placeholder="Billing end time"></td>
                     </tr>
                     <tr class="py-2">
                         <th><label class="" for=""> Dispense Start: </label></th>
-                        <td><input #dispenseTimein type="datetime-local" placeholder="Dispensing start time"></td>
-                        <td><button class="btn btn-primary">Now</button></td>
+                        <td><input class="form-control" #dispenseTimein type="datetime-local"
+                            [(ngModel)]="activeRow.prescription.dispenseStart" name="dispenseStart" placeholder="Dispensing start time"></td>
                     </tr>
                     <tr class="py-2">
                         <th><label class="me-2" for="">Dispense End: </label></th>
-                        <td><input #dispenseTimeout type="datetime-local" placeholder="Dispensing end time"></td>
-                        <td><button class="btn btn-primary">Now</button></td>
+                        <td><input class="form-control" #dispenseTimeout type="datetime-local" 
+                            [(ngModel)]="activeRow.prescription.dispenseEnd" name="dispenseEnd" placeholder="Dispensing end time"></td>
                     </tr>
-                </table>
-               
+                </table>              
          
             </form>
         </div>
@@ -41,7 +38,7 @@
             <button type="button" class="btn btn-secondary"
             (click)="close()"
             >Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
+            <button type="button" class="btn btn-primary" (click)="save($event)">Save changes</button>
         </div>
     </div>
 </div>
