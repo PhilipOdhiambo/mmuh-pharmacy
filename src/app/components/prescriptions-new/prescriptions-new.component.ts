@@ -36,7 +36,7 @@ export class PrescriptionsNewComponent {
     const nextTally = 'P' + await this.appService.getNextTally('sheetName=outpatients')
     const data = [
       {
-        Id: utils.id,
+        id: utils.id,
         Date: utils.timestamp,
         Cartegory: this.cartegory,
         tallyNo: nextTally,
@@ -45,7 +45,7 @@ export class PrescriptionsNewComponent {
         billStart:this.billStart
       }
     ]
-    this.appService.doPost('sheetName=outpatients','method=create',data)
+    this.appService.doPost('outpatients','create',data)
     
   }
 

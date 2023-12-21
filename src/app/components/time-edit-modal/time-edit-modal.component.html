@@ -1,4 +1,4 @@
-<div class="app-modal-backdrop "  tabindex="-1" >
+<div class="app-modal-backdrop " tabindex="-1">
 
 </div>
 <div class="modal-dialog">
@@ -7,37 +7,47 @@
             <h5 class="modal-title">Update Process</h5>
             <button type="button" class="btn-close" (click)="close()" aria-label="Close"></button>
         </div>
-        <div class="modal-body" style="height: 50px; overflow-y: auto;">
+        <div class="modal-body" style="height: 60px; overflow-y: auto;">
             <form action="">
-                <table >
+                <table>
                     <tr class="py-2">
                         <th><label class="me-2" for="">Billing Start: </label></th>
-                        <td><input class="form-control" #billTimein type="datetime-local" 
-                            [(ngModel)]="activeRow.prescription.billStart" name="billStart" placeholder="Billing start time"></td>
+                        <td class="py-2">
+                            <input class="form-control" #billTimein type="datetime-local"
+                                [ngModel]="activeRow.prescription.billStart | date:'yyyy-MM-ddThh:mm'"
+                                (ngModelChange)="activeRow.prescription.billStart=$event" name="billStart">
+                        </td>
+                        <td><button class="btn btn-primary ms-3" (click)="activeRow.prescription.billStart=newDate ">Now</button></td>
+
                     </tr>
                     <tr class="py-2">
                         <th><label class="me-2" for="">Billing End: </label></th>
-                        <td><input class="form-control" #billTimeout type="datetime-local" 
-                            [(ngModel)]="activeRow.prescription.billEnd" name="billEnd" placeholder="Billing end time"></td>
+                        <td class="py-2"><input class="form-control" #billTimeout type="datetime-local"
+                                [ngModel]="activeRow.prescription.billEnd | date:'yyyy-MM-ddThh:mm'"
+                                (ngModelChange)="activeRow.prescription.billEnd=$event" name="billEnd">
+                        </td>
+                        <td><button class="btn btn-primary ms-3" (click)="activeRow.prescription.billEnd=newDate " >Now</button></td>
                     </tr>
                     <tr class="py-2">
-                        <th><label class="" for=""> Dispense Start: </label></th>
-                        <td><input class="form-control" #dispenseTimein type="datetime-local"
-                            [(ngModel)]="activeRow.prescription.dispenseStart" name="dispenseStart" placeholder="Dispensing start time"></td>
+                        <th><label class="me-2" for=""> Dispense Start: </label></th>
+                        <td class="py-2"><input class="form-control" #dispenseTimein type="datetime-local"
+                                [ngModel]="activeRow.prescription.dispenseStart | date:'yyyy-MM-ddThh:mm'"
+                                (ngModelChange)="activeRow.prescription.dispensStart=$event" name="dispenseStart"></td>
+                        <td><button class="btn btn-primary ms-3" (click)="activeRow.prescription.dispenseStart=newDate ">Now</button></td>
                     </tr>
                     <tr class="py-2">
                         <th><label class="me-2" for="">Dispense End: </label></th>
-                        <td><input class="form-control" #dispenseTimeout type="datetime-local" 
-                            [(ngModel)]="activeRow.prescription.dispenseEnd" name="dispenseEnd" placeholder="Dispensing end time"></td>
+                        <td class="py-2"><input class="form-control" #dispenseTimeout type="datetime-local"
+                                [ngModel]="activeRow.prescription.dispenseEnd | date:'yyyy-MM-ddThh:mm'"
+                                (ngModelChange)="activeRow.prescription.dispenseEnd=$event" name="dispenseEnd"></td>
+                        <td><button class=" btn btn-primary ms-3 " (click)="activeRow.prescription.dispenseEnd=newDate ">Now</button></td>
                     </tr>
-                </table>              
-         
+                </table>
+
             </form>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-secondary"
-            (click)="close()"
-            >Close</button>
+            <button type="button" class="btn btn-secondary" (click)="close()">Close</button>
             <button type="button" class="btn btn-primary" (click)="save($event)">Save changes</button>
         </div>
     </div>

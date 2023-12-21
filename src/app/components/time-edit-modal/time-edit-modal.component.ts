@@ -1,11 +1,12 @@
-import { Component,ElementRef,Input, ViewChild, EventEmitter, Output, OnInit, AfterViewInit, NgModule } from '@angular/core';
+import { Component,ElementRef,Input, ViewChild, EventEmitter, Output, OnInit, AfterViewInit} from '@angular/core';
 import { AppService } from '../../app.service';
 import {FormsModule} from '@angular/forms';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-time-edit-modal',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule,DatePipe],
   templateUrl: './time-edit-modal.component.html',
   styleUrl: './time-edit-modal.component.css'
 })
@@ -22,6 +23,8 @@ export class TimeEditModalComponent implements OnInit,AfterViewInit {
 
   @Output() onModalClose = new EventEmitter()
 
+  newDate = new Date()
+
   constructor(private service:AppService) {
 
   }
@@ -33,32 +36,34 @@ export class TimeEditModalComponent implements OnInit,AfterViewInit {
       
     switch(this.activeRow.editField) {
       case 'billTimein':
-        this.billStart.nativeElement.value = new Date().toLocaleDateString()
+        this.billStart.nativeElement.value = new Date().toLocaleString()
         this.billStart.nativeElement.scrollIntoView({
           behavior:'auto',
-          block:'center'
+          block:'center',inline:'center'
         })
         this.billStart.nativeElement.focus();
-
         break;
+
       case 'billTimeout':
         this.billEnd.nativeElement.scrollIntoView({
           behavior:'auto',
-          block:'center'
+          block:'center', inline: 'center'
         })
         this.billEnd.nativeElement.focus();
         break;
+
       case 'dispenseTimein':
         this.dispStart.nativeElement.scrollIntoView({
           behavior:'auto',
-          block:'center'
+          block:'center', inline:'center'
         })
         this.dispStart.nativeElement.focus();
         break;
+
       case 'dispenseTimeout':
         this.dispEnd.nativeElement.scrollIntoView({
           behavior:'auto',
-          block:'center'
+          block:'center', inline:'center'
         })
         this.dispEnd.nativeElement.focus();
         break;
@@ -66,8 +71,8 @@ export class TimeEditModalComponent implements OnInit,AfterViewInit {
   }
 
   save(event:Event) {
+
     this.service.saveOutpatient(this.activeRow.prescription)
-    console.log(this.activeRow.prescription)
     const target = event.target as HTMLButtonElement
     target.disabled = true
     this.close()
