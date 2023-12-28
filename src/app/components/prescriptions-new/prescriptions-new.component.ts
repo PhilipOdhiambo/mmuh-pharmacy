@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Output } from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import { AppService } from '../../app.service';
 
@@ -26,9 +26,11 @@ export class PrescriptionsNewComponent {
   itemsOrdered:any
   itemsUsubstitutable = 0
 
-  constructor(private appService: AppService){}
+  @Output() onModalClose = new EventEmitter()
 
-  async save() {
+  constructor(private appService: AppService, private el:ElementRef){}
+
+  async save(event:Event) {
     const utils = await this.appService.getUtils()
     const nextTally = 'P' + await this.appService.getNextTally('sheetName=outpatients')
     const data = [
@@ -44,7 +46,13 @@ export class PrescriptionsNewComponent {
       }
     ]
     this.appService.doPost('outpatients','create',data)
+    this.el.nativeElement.close()
     
+  }
+  
+
+  close() {
+    this.onModalClose.emit(true)
   }
 
   

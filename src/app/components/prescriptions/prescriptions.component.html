@@ -3,7 +3,7 @@
         <thead>
             <tr>
                 <th colspan="2">
-                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addNewModal">Add
+                    <button class="btn btn-primary" (click)="showCreateModal=true" >Add
                         new</button>
                 </th>
                 <th></th>
@@ -72,11 +72,12 @@
     </table>
 
 
-    <!-- Add New Modal -->
-    <div class="modal fade" id="addNewModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-        aria-labelledby="addNewModalLabel" aria-hidden="true">
-        <app-prescriptions-new></app-prescriptions-new>
-    </div>
+    <!-- Add New Modal -->    
+    <ng-template [ngIf]="showCreateModal">
+        <app-prescriptions-new (onModalClose)="onCreateModalClose()" />
+    
+    </ng-template>
+
 
     <!-- update Modal -->
     <ng-template [ngIf]="showUpdateModal">

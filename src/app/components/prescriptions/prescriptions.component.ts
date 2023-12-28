@@ -25,6 +25,7 @@ export class PrescriptionsComponent implements OnInit{
   activeRow!:ActiveRowI
   prescriptions:any = []
   showUpdateModal = false
+  showCreateModal = false
   constructor(private dataService:AppService) {}
 
   ngOnInit() {
@@ -41,9 +42,14 @@ export class PrescriptionsComponent implements OnInit{
     this.showUpdateModal = true
   }
 
+  onCreateModalClose() {
+    this.showCreateModal = false
+  }
+
   closeModal(event:Event) {
     this.showUpdateModal = false
   }
+
 
 }
 
