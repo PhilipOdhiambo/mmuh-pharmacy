@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, take, lastValueFrom } from 'rxjs';
-import { map } from 'rxjs/operators'
+import { Observable, take, lastValueFrom} from 'rxjs';
+import { map} from 'rxjs/operators'
+import { WorkloadTransaction } from './types';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,7 @@ export class AppService {
 
   constructor(private http: HttpClient) { }
   doGet(params: string): Observable<any> {
+    
     return this.http.get(this.url + params)
   }
 
@@ -25,33 +27,21 @@ export class AppService {
     })
   }
 
-  getNextTally(param: string) {
-    const $request = this.doGet(param).pipe(
-      take(1),
-      map(arr => arr.reduce((acc: any, curr: any) => {
-        if (!acc.length || curr.Date > acc[0].Date) {
-          return [curr];
-        } else if (curr.Date == acc[0].Date) {
-          acc.push(curr);
-        }
-        return acc;
-      }, [])),
-      map(data => data.reduce((prev: any, curr: any) => {
-        return curr.tallyNo > prev.tallyNo ? curr : prev;
-      })
-      )
-    )
-    return lastValueFrom($request).then(obj => {
-      const lastDate = new Date(obj.Date).getDate()
-      const todayDate = new Date().getDate()
 
-      if (lastDate < todayDate) {
-        const tallyNo: number = 1
-        return tallyNo
-      }
-      return parseInt(obj.tallyNo.replace(/\D/g, '')) + 1
-    })
+  getNextTally(param: string,cartegory:string) {
+    const $request = this.doGet(param).pipe(
+      map(arr => arr.reduce((acc:any,next:any)=>{
+        let curr = next as WorkloadTransaction;
+       if (((new Date(curr.Date)) == (new Date())) &&  curr.Cartegory == cartegory) {
+         let currTallyNo = parseInt(curr.tallyNo.replace(/\D/g, ''))
+         return currTallyNo > acc ? currTallyNo : acc
+       }
+       return acc;
+     }, 0))
+    )
+    return lastValueFrom($request).then(res => res + 1)
   }
+
 
   saveOutpatient(opdDoc:any) {
     this.doPost('outpatients','update',[opdDoc])

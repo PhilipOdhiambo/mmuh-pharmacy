@@ -32,7 +32,7 @@ export class PrescriptionsNewComponent {
 
   async save(event:Event) {
     const utils = await this.appService.getUtils()
-    const nextTally = 'P' + await this.appService.getNextTally('sheetName=outpatients')
+    const nextTally = 'P' + await this.appService.getNextTally('sheetName=outpatients', 'prescriptions')
     const data = [
       {
         id: utils.id,
