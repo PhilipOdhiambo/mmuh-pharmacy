@@ -1,20 +1,23 @@
-import { Component, ElementRef, EventEmitter, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Output, ViewChild} from '@angular/core';
+
 import {FormsModule} from '@angular/forms';
 import { AppService } from '../../app.service';
+import { Observable } from 'rxjs';
+import { CommonModule} from '@angular/common';
 
 
 @Component({
   selector: 'app-prescriptions-new',
   standalone: true,
   imports: [
-    FormsModule
+    FormsModule,CommonModule
   ],
   templateUrl: './prescriptions-new.component.html',
   styleUrl: './prescriptions-new.component.css'
 })
 export class PrescriptionsNewComponent {
 
-  osList = []
+  osList:any[] = []
 
   cartegory = 'prescription'
   billStart = new Date()
@@ -25,10 +28,15 @@ export class PrescriptionsNewComponent {
   tallyNo:any
   itemsOrdered:any
   itemsUsubstitutable = 0
+  inventory$:Observable<any>
+  
+  @ViewChild('osDialog',{static:true}) osDialog!:ElementRef 
 
   @Output() onModalClose = new EventEmitter()
 
-  constructor(private appService: AppService, private el:ElementRef){}
+  constructor(private appService: AppService, private el:ElementRef){
+    this.inventory$ =  this.appService.doGet("sheetName=inventory")
+  }
 
   async save(event:Event) {
     const utils = await this.appService.getUtils()
@@ -48,6 +56,10 @@ export class PrescriptionsNewComponent {
     this.appService.doPost('outpatients','create',data)
     this.el.nativeElement.close()
     
+  }
+
+  onSearchClick() {
+    this.osDialog.nativeElement.show()
   }
   
 

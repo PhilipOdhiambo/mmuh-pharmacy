@@ -32,54 +32,55 @@
                         <th>BrandName</th>
                         <th></th>
                     </tr>
+                    @for (os of osList; track $index) {
+                        
+                        <tr>
+                            <td>{{$index + 1}}</td>
+                            <td class="text-wrap" style="width: 300px;">{{os.GenericDescription}}</td>
+                            <td>{{os.BrandName ? os.BrandName : "Generic"}}</td>
+                            <td><i title="Remove Row" role="banner" (click)="osList.splice($index,1)" id="deleteOs" class="bi bi-trash"></i></td>
+                        </tr>
+                    }
         
-                    <tr>
-                        <td>1</td>
-                        <td class="text-wrap" style="width: 300px;" x-text="item.GenericDescription"></td>
-                        <td>item.BrandName ==''? 'Generic' : item.BrandName</td>
-                        <td><i id="deleteOs" class="bi bi-trash"></i></td> <!-- @click="osList.splice(index,1)" -->
-                    </tr>
         
-                </table> <!-- table of out of stock -->
-        
-        
+                </table> <!-- table of out of stock -->        
                 <div class="dropdown">
-                    <input x-model="search" class="dropdown-toggle form-control" style="width: 50%;" data-bs-toggle="dropdown"
+                    <input  class="dropdown-toggle form-control" style="width: 50%;" data-bs-toggle="dropdown"
                         autocomplete="false" placeholder="search and select os item ..."><!-- Dropdown filter-->
-                    <ul class="dropdown-menu" style="width:100%;height: 300px;overflow:auto;" aria-expanded="false">
-                        <!-- <div style="margin-right: 150px;">
-                            <span x-show="refreshingInventory"><span class="spinner-border spinner-border-sm"></span></span>
-                            <span x-show="!refreshingInventory"><a
-                                    @click="$event.preventDefault(),$event.stopPropagation(),refreshInventory()"
-                                    href="#">Refresh inventory</a></span>
-                        </div> -->
+                        <ul class="dropdown-menu" style="width:100%;height: 300px;overflow:auto;" aria-expanded="false">
+                            @if (inventory$ |async) {
+                                @for (item of inventory$ |async; track $index) {
+
+                                    <li class="dropdown-item " role="button" (click)="osList.push(item)">
+                                        <a>
+                                            <span class="text-wrap" >{{item.Code + ' ' + item.GenericDescription}}</span> 
+                                            <span >{{item.BrandName ? " " + item.BrandName : ""}}</span> 
+                                        </a>
+                                    </li>                                                 
+                                }
+
+                            }
+                            @else {
+
+                                
+                                <li class="ps-2"> <!-- x-show="search!='' && !filteredInventory.length"-->
+                                    <span class="fw-bold" ></span> <!-- x-text="search + ' '"--> does not exist.
+                                    <a href="https://docs.google.com/spreadsheets/d/1RX0Zz_9LkdIv5R2VeRfg0NnELdcWWF3Nad9QtCH9gAc/edit#gid=0"
+                                        target="_blank">
+                                        Click to add
+                                    </a>, then Refresh inventory.
+                                </li>
+                            }
+                            
                         
-                            <li class="dropdown-item " style="cursor: pointer;"> <!--  @click="increamentOS(item);search=''"-->
-                                <a>
-                                    <span class="text-wrap" >SF001' 'Amikacin 125mg</span> <!-- x-text="item.Code + ' ' + item.GenericDescription"-->
-                                    <span >Lanomycin</span> <!-- x-text="item.BrandName == '' ? '' : ': ' + item.BrandName"-->
-                                </a>
-                            </li>
                         
-                        <li class="ps-2"> <!-- x-show="search!='' && !filteredInventory.length"-->
-                            <span class="fw-bold" ></span> <!-- x-text="search + ' '"--> does not exist.
-                            <a href="https://docs.google.com/spreadsheets/d/1RX0Zz_9LkdIv5R2VeRfg0NnELdcWWF3Nad9QtCH9gAc/edit#gid=0"
-                                target="_blank">
-                                Click to add
-                            </a>, then Refresh inventory.
-                        </li>
-                        <li>
-        
-                        </li>
                     </ul><!-- Dropdown Menu -->
-                </div> <!-- Dropdown -->
-        
+                </div><!--Dropdown-->                
             
             
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" (click)="close()">Close</button>
-            <button type="button" (click)="save($event)" class="btn btn-primary">Save changes</button>
+            <button type="button" (click)="save($event)" class="btn btn-primary">Save New Prescription</button>
         </div>
     </form>
 </div>

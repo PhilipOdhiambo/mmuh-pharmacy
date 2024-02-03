@@ -42,6 +42,10 @@ export class PrescriptionsComponent implements OnInit{
     this.showUpdateModal = true
   }
 
+  onDeletePresc(presc:any) {
+    this.dataService.doPost("outpatients","delete",[presc]).subscribe(res => window.location.reload())
+  }
+
   onCreateModalClose() {
     this.showCreateModal = false
   }

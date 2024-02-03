@@ -17,7 +17,7 @@ export class AppService {
   }
 
   doPost(sheetName:string, method: string, data: any) {
-    this.http.post(this.url + 'sheetName=' + sheetName + '&method=' + method, JSON.stringify(data)).subscribe(res => console.log(res))
+    return this.http.post(this.url + 'sheetName=' + sheetName + '&method=' + method, JSON.stringify(data))
   }
 
   getUtils() {
