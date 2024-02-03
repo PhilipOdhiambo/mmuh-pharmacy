@@ -48,44 +48,33 @@
                     <input  class="dropdown-toggle form-control" style="width: 50%;" data-bs-toggle="dropdown"
                         autocomplete="false" placeholder="search and select os item ..."><!-- Dropdown filter-->
                         <ul class="dropdown-menu" style="width:100%;height: 300px;overflow:auto;" aria-expanded="false">
-                            @if (inventory$ |async) {
-                                @for (item of inventory$ |async; track $index) {
+                            @for (item of inventory; track $index) {
 
-                                    <li class="dropdown-item " role="button" (click)="osList.push(item)">
-                                        <a>
-                                            <span class="text-wrap" >{{item.Code + ' ' + item.GenericDescription}}</span> 
-                                            <span >{{item.BrandName ? " " + item.BrandName : ""}}</span> 
-                                        </a>
-                                    </li>                                                 
-                                }
-
-                            }
-                            @else {
-
-                                
-                                <li class="ps-2"> <!-- x-show="search!='' && !filteredInventory.length"-->
-                                    <span class="fw-bold" ></span> <!-- x-text="search + ' '"--> does not exist.
-                                    <a href="https://docs.google.com/spreadsheets/d/1RX0Zz_9LkdIv5R2VeRfg0NnELdcWWF3Nad9QtCH9gAc/edit#gid=0"
-                                        target="_blank">
-                                        Click to add
-                                    </a>, then Refresh inventory.
-                                </li>
-                            }
-                            
+                                <li class="dropdown-item " role="button" (click)="osList.push(item)">
+                                    <a>
+                                        <span class="text-wrap" >{{item.Code + ' ' + item.GenericDescription}}</span> 
+                                        <span >{{item.BrandName ? " " + item.BrandName : ""}}</span> 
+                                    </a>
+                                </li>                                                 
+                            }                
                         
-                        
+                            @if (invetoryFetching) {        
+                                <li>Loading ...</li>
+                            }
                     </ul><!-- Dropdown Menu -->
-                </div><!--Dropdown-->                
-            
+                </div><!--Dropdown-->           
             
         </div>
         <div class="modal-footer">
-            <button type="button" (click)="save($event)" class="btn btn-primary">Save New Prescription</button>
+            @if (!saving) {
+                <button type="button" (click)="save($event)" class="btn btn-primary">Save New Prescription</button>
+            }
+            @else {
+                <button class="btn btn-primary" disabled="disabled">Saving ...</button>
+            }
         </div>
     </form>
 </div>
-
-
 
     <div class="app-modal-backdrop"></div>
 </div>

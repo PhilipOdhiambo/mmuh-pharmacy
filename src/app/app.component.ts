@@ -25,7 +25,9 @@ export class AppComponent implements OnInit {
   constructor(private dataService:AppService){}
   ngOnInit() {
     // this.dataService.fetchData().subscribe(res => console.log(res))
-    this.dataService.getNextTally("sheetName=outpatients", '').then(res => console.log(res))
+    // this.dataService.getNextTally("sheetName=outpatients", 'prescription').then(res => console.log(res))
+    // this.dataService.getWorkload("prescription").then(res => console.log(res))
+
   }
 
 

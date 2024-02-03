@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TimeEditModalComponent } from '../time-edit-modal/time-edit-modal.component';
 import { AppService } from '../../app.service';
-import {map} from 'rxjs/operators';
 import { DatePipe, NgIf } from '@angular/common';
 import { PrescriptionsNewComponent } from '../prescriptions-new/prescriptions-new.component';
 
@@ -21,7 +20,8 @@ export interface ActiveRowI {
   styleUrl: './prescriptions.component.css'
 })
 export class PrescriptionsComponent implements OnInit{
-
+  cartegory = 'prescription'
+  tallyPrefix = 'P'
   activeRow!:ActiveRowI
   prescriptions:any = []
   showUpdateModal = false
@@ -29,12 +29,14 @@ export class PrescriptionsComponent implements OnInit{
   constructor(private dataService:AppService) {}
 
   ngOnInit() {
-    this.dataService.doGet("sheetName=outpatients")
-    .pipe(
-      map(oupatients => oupatients.filter((p:any) => p.Cartegory == 'prescription'))
-    )
-    .subscribe(pres => this.prescriptions= pres)
+    this.fetchPrescriptions()
   }
+
+
+  fetchPrescriptions() {
+    this.dataService.getWorkload("prescription").then(res => this.prescriptions = res)
+  }
+
 
   activePresc(editField:string,presc:any){
   
@@ -42,11 +44,14 @@ export class PrescriptionsComponent implements OnInit{
     this.showUpdateModal = true
   }
 
-  onDeletePresc(presc:any) {
-    this.dataService.doPost("outpatients","delete",[presc]).subscribe(res => window.location.reload())
+  async onDeletePresc(presc:any) {
+    await this.dataService.doPost("outpatients","delete",[presc]).then(data => {
+      this.fetchPrescriptions()
+    })
   }
 
   onCreateModalClose() {
+    this.fetchPrescriptions()
     this.showCreateModal = false
   }
 

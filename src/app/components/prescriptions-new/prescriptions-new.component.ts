@@ -1,9 +1,9 @@
-import { Component, ElementRef, EventEmitter, Output, ViewChild} from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, ViewChild} from '@angular/core';
 
 import {FormsModule} from '@angular/forms';
 import { AppService } from '../../app.service';
-import { Observable } from 'rxjs';
 import { CommonModule} from '@angular/common';
+import { Inventory, WorkloadTransaction } from '../../types';
 
 
 @Component({
@@ -18,8 +18,8 @@ import { CommonModule} from '@angular/common';
 export class PrescriptionsNewComponent {
 
   osList:any[] = []
-
-  cartegory = 'prescription'
+  @Input() cartegory!:string
+  @Input() tallyPrefix!:string
   billStart = new Date()
   billEnd:any
   dispenseStart:any
@@ -28,20 +28,33 @@ export class PrescriptionsNewComponent {
   tallyNo:any
   itemsOrdered:any
   itemsUsubstitutable = 0
-  inventory$:Observable<any>
+  saving = false;
+
+  inventory: Inventory [] = []
+  invetoryFetching = true;
   
   @ViewChild('osDialog',{static:true}) osDialog!:ElementRef 
 
   @Output() onModalClose = new EventEmitter()
 
   constructor(private appService: AppService, private el:ElementRef){
-    this.inventory$ =  this.appService.doGet("sheetName=inventory")
+    this.fetchInventory()
+  }
+
+  fetchInventory() {
+    this.invetoryFetching = true;
+
+    this.appService.doGet("sheetName=inventory").subscribe((res:Inventory []) => {
+      this.inventory = res    
+      this.invetoryFetching = false
+    })
   }
 
   async save(event:Event) {
+    this.saving = true
     const utils = await this.appService.getUtils()
-    const nextTally = 'P' + await this.appService.getNextTally('sheetName=outpatients', 'prescriptions')
-    const data = [
+    const nextTally = this.tallyPrefix + await this.appService.getNextTally('sheetName=outpatients', this.cartegory)
+    const data:WorkloadTransaction [] = [
       {
         id: utils.id,
         Date: utils.timestamp,
@@ -50,11 +63,12 @@ export class PrescriptionsNewComponent {
         itemsOrdered: this.itemsOrdered,
         itemsAvailable: this.itemsOrdered - this.itemsUsubstitutable,
         billStart:this.billStart,
-        billEnd: new Date()
+        billEnd: new Date(),
       }
     ]
-    this.appService.doPost('outpatients','create',data)
-    this.el.nativeElement.close()
+    await this.appService.doPost('outpatients','create',data)
+    this.saving = false
+    this.onModalClose.emit()
     
   }
 

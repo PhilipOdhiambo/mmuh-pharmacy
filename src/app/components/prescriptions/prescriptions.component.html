@@ -74,7 +74,10 @@
 
     <!-- Add New Modal -->    
     <ng-template [ngIf]="showCreateModal">
-        <app-prescriptions-new (onModalClose)="onCreateModalClose()" />
+        <app-prescriptions-new
+        [cartegory]="cartegory"
+        [tallyPrefix]="tallyPrefix"
+        (onModalClose)="onCreateModalClose()" />
     
     </ng-template>
 

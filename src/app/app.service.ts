@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, take, lastValueFrom} from 'rxjs';
+import { Observable, take, lastValueFrom,} from 'rxjs';
 import { map} from 'rxjs/operators'
 import { WorkloadTransaction } from './types';
 
@@ -17,7 +17,8 @@ export class AppService {
   }
 
   doPost(sheetName:string, method: string, data: any) {
-    return this.http.post(this.url + 'sheetName=' + sheetName + '&method=' + method, JSON.stringify(data))
+     let $res = this.http.post(this.url + 'sheetName=' + sheetName + '&method=' + method, JSON.stringify(data))
+    return lastValueFrom($res)
   }
 
   getUtils() {
@@ -27,13 +28,22 @@ export class AppService {
     })
   }
 
+  getWorkload(cartegory:string ) {
+    const request$ = this.doGet("sheetName=outpatients")
+    .pipe(
+      map(oupatients => oupatients.filter((p:any) => p.Cartegory == cartegory))
+    )
+    return lastValueFrom(request$)
+
+  }
+
 
   getNextTally(param: string,cartegory:string) {
     const $request = this.doGet(param).pipe(
       map(arr => arr.reduce((acc:any,next:any)=>{
         let curr = next as WorkloadTransaction;
-       if (((new Date(curr.Date)) == (new Date())) &&  curr.Cartegory == cartegory) {
-         let currTallyNo = parseInt(curr.tallyNo.replace(/\D/g, ''))
+       if (((new Date(curr.Date)).toLocaleDateString() == (new Date()).toLocaleDateString()) &&  (curr.Cartegory == cartegory)) {
+         let currTallyNo = parseInt(curr.tallyNo!.replace(/\D/g, ''))
          return currTallyNo > acc ? currTallyNo : acc
        }
        return acc;
