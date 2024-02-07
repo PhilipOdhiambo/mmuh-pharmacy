@@ -1,19 +1,42 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, take, lastValueFrom,} from 'rxjs';
+import { Observable, take, lastValueFrom, Subject, BehaviorSubject, Subscription,} from 'rxjs';
 import { map} from 'rxjs/operators'
-import { WorkloadTransaction } from './types';
+import { Inventory, WorkloadTransaction } from './types';
+import { Firestore,collection,docData, doc,setDoc } from '@angular/fire/firestore';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class AppService {
   private url = 'https://script.google.com/macros/s/AKfycbzPJ75D_tyT18zLgJP4oedBCY9AekwO1GkaztuODzpJJhx12hbopUFs1XrfwUAuR-iPJQ/exec?'
+  subject = new Subject()
+  $inventory = new BehaviorSubject<any>([])
+  inventorySubscription?:Subscription;
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private firestore:Firestore
+    ) { 
+      this.inventoryObserver()
+    }
+    
+    inventoryObserver(){
+      this.inventorySubscription = docData(doc(this.firestore,'inventory/inventory')).subscribe((res) => { 
+        if(res) {          
+          this.$inventory.next(JSON.parse(res['inventory']))
+        }      
+      })
+
+    }
   doGet(params: string): Observable<any> {
     
     return this.http.get(this.url + params)
+  }
+
+  setFirebaseDoc(docPath:string,data:any) {
+    return setDoc(doc(this.firestore,docPath),data)
   }
 
   doPost(sheetName:string, method: string, data: any) {

@@ -27,6 +27,10 @@ export class AppComponent implements OnInit {
     // this.dataService.fetchData().subscribe(res => console.log(res))
     // this.dataService.getNextTally("sheetName=outpatients", 'prescription').then(res => console.log(res))
     // this.dataService.getWorkload("prescription").then(res => console.log(res))
+    // this.dataService.doGet("sheetName=inventory").subscribe(res => {
+    //   this.dataService.setFirebaseDoc('inventory/inventory',{inventory: JSON.stringify(res)})
+    // })
+    this.dataService.$inventory.subscribe(res => console.log(res))
 
   }
 
