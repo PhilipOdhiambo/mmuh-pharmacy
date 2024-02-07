@@ -16,8 +16,7 @@ import { Inventory, WorkloadTransaction } from '../../types';
   styleUrl: './prescriptions-new.component.css'
 })
 export class PrescriptionsNewComponent {
-
-  osList:any[] = []
+  osList:Inventory[] = []
   @Input() cartegory!:string
   @Input() tallyPrefix!:string
   billStart = new Date()
@@ -27,7 +26,8 @@ export class PrescriptionsNewComponent {
   user:any
   tallyNo:any
   itemsOrdered:any
-  itemsUsubstitutable = 0
+  itemsSubstituted = 0
+  numberOfDocs?:number
   saving = false;
 
   inventory: Inventory [] = []
@@ -38,7 +38,7 @@ export class PrescriptionsNewComponent {
   @Output() onModalClose = new EventEmitter()
 
   constructor(private appService: AppService, private el:ElementRef){
-    this.fetchInventory()
+    this.fetchInventory();
   }
 
   fetchInventory() {
@@ -50,20 +50,34 @@ export class PrescriptionsNewComponent {
     })
   }
 
+  updateSubstitute(event:Event) {
+    if((event.target as HTMLInputElement).checked) {
+      this.itemsSubstituted += 1
+    } else {
+      this.itemsSubstituted -= 1
+    }
+    
+    }
+
   async save(event:Event) {
     this.saving = true
     const utils = await this.appService.getUtils()
     const nextTally = this.tallyPrefix + await this.appService.getNextTally('sheetName=outpatients', this.cartegory)
+    let itemsIssued = this.itemsOrdered - this.osList.length + this.itemsSubstituted
+    let fillRatePercent = (itemsIssued/this.itemsOrdered) * 100;
     const data:WorkloadTransaction [] = [
       {
         id: utils.id,
         Date: utils.timestamp,
         Cartegory: this.cartegory,
         tallyNo: nextTally,
+        noOfDocs: this.numberOfDocs,
         itemsOrdered: this.itemsOrdered,
-        itemsAvailable: this.itemsOrdered - this.itemsUsubstitutable,
+        itemsOs:this.osList.length || 0,
+        osSubstituted: this.itemsSubstituted,
+        itemsIssued,
+        fillRatePercent,
         billStart:this.billStart,
-        billEnd: new Date(),
       }
     ]
     await this.appService.doPost('outpatients','create',data)

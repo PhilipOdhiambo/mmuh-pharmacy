@@ -5,8 +5,10 @@
     tallyNo?: string
     noOfDocs?:number
     itemsOrdered?:number
-    itemsAvailable?:number
-    itemsSubstituted?:number
+    itemsOs?:number
+    osSubstituted?:number
+    itemsIssued?:number
+    fillRatePercent?:number
     billStart?:Date
     billEnd?:Date
     dispenseStart?:Date
