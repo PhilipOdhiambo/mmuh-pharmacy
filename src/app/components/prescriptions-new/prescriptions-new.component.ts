@@ -1,9 +1,10 @@
-import { Component, ElementRef, EventEmitter, Input, Output, ViewChild} from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnDestroy, Output, ViewChild} from '@angular/core';
 
 import {FormsModule} from '@angular/forms';
 import { AppService } from '../../app.service';
 import { CommonModule} from '@angular/common';
 import { Inventory, WorkloadTransaction } from '../../types';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -15,7 +16,7 @@ import { Inventory, WorkloadTransaction } from '../../types';
   templateUrl: './prescriptions-new.component.html',
   styleUrl: './prescriptions-new.component.css'
 })
-export class PrescriptionsNewComponent {
+export class PrescriptionsNewComponent implements OnDestroy {
   osList:Inventory[] = []
   @Input() cartegory!:string
   @Input() tallyPrefix!:string
@@ -29,7 +30,7 @@ export class PrescriptionsNewComponent {
   itemsSubstituted = 0
   numberOfDocs?:number
   saving = false;
-
+  $inventorySubscription!:Subscription
   inventory: Inventory [] = []
   invetoryFetching = true;
   
@@ -41,11 +42,14 @@ export class PrescriptionsNewComponent {
     this.fetchInventory();
   }
 
+  ngOnDestroy(): void {
+    this.appService.$inventory.unsubscribe()
+  }
+
   fetchInventory() {
     this.invetoryFetching = true;
-
-    this.appService.doGet("sheetName=inventory").subscribe((res:Inventory []) => {
-      this.inventory = res    
+    this.appService.$inventory.subscribe(res => {
+      this.inventory = res
       this.invetoryFetching = false
     })
   }

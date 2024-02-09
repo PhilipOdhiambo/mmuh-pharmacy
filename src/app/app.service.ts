@@ -2,8 +2,8 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, take, lastValueFrom, Subject, BehaviorSubject, Subscription,} from 'rxjs';
 import { map} from 'rxjs/operators'
-import { Inventory, WorkloadTransaction } from './types';
-import { Firestore,collection,docData, doc,setDoc } from '@angular/fire/firestore';
+import { WorkloadTransaction } from './types';
+import { Firestore,docData, doc,setDoc, Timestamp } from '@angular/fire/firestore';
 
 
 @Injectable({
@@ -13,23 +13,35 @@ export class AppService {
   private url = 'https://script.google.com/macros/s/AKfycbzPJ75D_tyT18zLgJP4oedBCY9AekwO1GkaztuODzpJJhx12hbopUFs1XrfwUAuR-iPJQ/exec?'
   subject = new Subject()
   $inventory = new BehaviorSubject<any>([])
+  $workloadTransactions = new BehaviorSubject<any>([])
   inventorySubscription?:Subscription;
 
   constructor(
     private http: HttpClient,
-    private firestore:Firestore
+    private firestore:Firestore,
     ) { 
-      this.inventoryObserver()
+      this.firestoreDocToBehaviorSubject('inventory/workloadTransactions','workloadTransactions',this.$workloadTransactions)    
+      this.firestoreDocToBehaviorSubject('inventory/inventory','inventory',this.$inventory)    
     }
-    
-    inventoryObserver(){
-      this.inventorySubscription = docData(doc(this.firestore,'inventory/inventory')).subscribe((res) => { 
-        if(res) {          
-          this.$inventory.next(JSON.parse(res['inventory']))
-        }      
+
+
+    googleSheetOutpatientsToFirestore() {
+      this.doGet("sheetName=outpatients").subscribe(res => {
+        this.setFirebaseDoc('inventory/workloadTransactions',{workloadTransactions:JSON.stringify(res)})
       })
 
     }
+    
+ 
+    firestoreDocToBehaviorSubject(documentPath:string,field:string,behaviorSubject:BehaviorSubject<any>) {
+      docData(doc(this.firestore, documentPath)).subscribe((res) => {
+        if(res) {          
+          behaviorSubject.next(JSON.parse(res[field]))
+        }      
+      })
+    }
+    
+
   doGet(params: string): Observable<any> {
     
     return this.http.get(this.url + params)
