@@ -1,4 +1,4 @@
-# MMUH HOSPITAL - KENYANTTA NATIONAL HOSPITAL ANNEX
+# MMUH HOSPITAL - KENYATTA NATIONAL HOSPITAL (KNH) ANNEX
 
 This app serves to automate pharamcy processes involving stock management and patient management
 
