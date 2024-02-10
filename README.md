@@ -5,7 +5,7 @@ This app serves to automate pharamcy processes involving stock management and pa
 
 ## Site
 
-It is currently hosted ath [mmuh-pharmacy.medspace.store](https://mmuh-pharmacy.medspace.store).
+It is currently hosted ath [mmuh-pharmacy.medspace.store](https://mmuh-pharmacy.medspace.store)
 
 ## Build
 
