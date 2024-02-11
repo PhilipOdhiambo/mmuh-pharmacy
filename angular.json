@@ -12,7 +12,7 @@
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:application",
-          "options": {
+          "options": {            
             "outputPath": "dist",
             "index": "src/index.html",
             "browser": "src/main.ts",
