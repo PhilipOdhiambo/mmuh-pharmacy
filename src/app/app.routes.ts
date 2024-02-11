@@ -18,6 +18,12 @@ export const routes: Routes = [
     },
     
     {
+        path:'issue', component:IssuePageComponent
+    },
+    {
         path:'bincard', component:BincardPageComponent
+    },
+    {
+        path:'**', component:HomePageComponent
     }
 ];
