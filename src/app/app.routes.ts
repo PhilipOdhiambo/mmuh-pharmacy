@@ -6,7 +6,7 @@ import { IssuePageComponent } from './pages/issue-page/issue-page.component';
 
 export const routes: Routes = [
     {
-        path: '', redirectTo:'', pathMatch:'full'
+        path: '', redirectTo:'home', pathMatch:'full'
     },
     {
         path:'home', component:HomePageComponent
