@@ -6,7 +6,7 @@ import { IssuePageComponent } from './pages/issue-page/issue-page.component';
 
 export const routes: Routes = [
     {
-        path: '', pathMatch:'full', redirectTo: 'home'
+        path: '', redirectTo:'', pathMatch:'full'
     },
     {
         path:'home', component:HomePageComponent
@@ -27,6 +27,6 @@ export const routes: Routes = [
         path:'bincard', component:BincardPageComponent
     },
     {
-        path:'**', redirectTo: '/404'
+        path:'**', redirectTo: '/404', pathMatch: 'full'
     }
 ];
