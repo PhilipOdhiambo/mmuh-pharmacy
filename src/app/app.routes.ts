@@ -27,6 +27,6 @@ export const routes: Routes = [
         path:'bincard', component:BincardPageComponent
     },
     {
-        path:'**', redirectTo: 'home'
+        path:'**', redirectTo: 'home', pathMatch:'full'
     }
 ];
