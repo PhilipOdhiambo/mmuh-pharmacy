@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Input, Output, ViewChild} from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 
 import {FormsModule} from '@angular/forms';
 import { AppService } from '../../app.service';
@@ -16,7 +16,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './prescriptions-new.component.html',
   styleUrl: './prescriptions-new.component.css'
 })
-export class PrescriptionsNewComponent {
+export class PrescriptionsNewComponent implements OnInit {
   osList:Inventory[] = []
   @Input() cartegory!:string
   @Input() tallyPrefix!:string
@@ -32,7 +32,10 @@ export class PrescriptionsNewComponent {
   saving = false;
   $inventorySubscription!:Subscription
   inventory: Inventory [] = []
+  filteredInventory:Inventory[] = []
   invetoryFetching = true;
+
+  searchInput!:HTMLInputElement
   
   @ViewChild('osDialog',{static:true}) osDialog!:ElementRef 
 
@@ -41,12 +44,27 @@ export class PrescriptionsNewComponent {
   constructor(private appService: AppService, private el:ElementRef){
     this.fetchInventory();
   }
+  ngOnInit(): void {
+    this.searchInput = document.getElementById("searchbox") as HTMLInputElement
+  }
 
   fetchInventory() {
     this.invetoryFetching = true;
     this.appService.$inventory.subscribe(res => {
       this.inventory = res
+      this.filteredInventory = res
       this.invetoryFetching = false
+    })
+  }
+
+  filterInventory() {
+    const search  = this.searchInput.value
+    this.filteredInventory = this.inventory.filter(item => {
+      const regex = new RegExp('^' + search + '| ' + search + '|\\(' + search, 'i')
+        if (regex.test(item.Code) || regex.test(item.BrandName) || regex.test(item.GenericDescription)) {
+          return true
+        }
+        return false
     })
   }
 
@@ -88,6 +106,11 @@ export class PrescriptionsNewComponent {
 
   onSearchClick() {
     this.osDialog.nativeElement.show()
+  }
+
+  onInventoryDropdownClick(item:Inventory) {
+    this.osList.push(item)
+    this.searchInput.value = ''
   }
   
 
