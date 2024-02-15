@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Input, OnDestroy, Output, ViewChild} from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, ViewChild} from '@angular/core';
 
 import {FormsModule} from '@angular/forms';
 import { AppService } from '../../app.service';
@@ -16,7 +16,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './prescriptions-new.component.html',
   styleUrl: './prescriptions-new.component.css'
 })
-export class PrescriptionsNewComponent implements OnDestroy {
+export class PrescriptionsNewComponent {
   osList:Inventory[] = []
   @Input() cartegory!:string
   @Input() tallyPrefix!:string
@@ -40,10 +40,6 @@ export class PrescriptionsNewComponent implements OnDestroy {
 
   constructor(private appService: AppService, private el:ElementRef){
     this.fetchInventory();
-  }
-
-  ngOnDestroy(): void {
-    this.appService.$inventory.unsubscribe()
   }
 
   fetchInventory() {

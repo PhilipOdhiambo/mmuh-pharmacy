@@ -40,6 +40,15 @@ export class AppService {
         }      
       })
     }
+
+    // Delete workload Transaction
+    deleteWorkloadTrans(id:string) {
+      // Read the present value and convert it to a json array    
+      let data = this.$workloadTransactions.getValue() as WorkloadTransaction []      
+      let jsonArray = JSON.stringify(data.filter(data => data.id != id))
+      
+    }
+   
     
 
   doGet(params: string): Observable<any> {

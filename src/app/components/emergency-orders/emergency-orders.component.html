@@ -15,25 +15,28 @@
                 <th>Doc. No</th>
                 <th>No. Items Ordered</th>
                 <th>No. Items Availabe</th>
-                <th>Time-in</th>
-                <th>Time-out</th>
-                <th>time-in</th>
-                <th>time-out</th>
+                <th>Billing Start</th>
+                <th>Billing End</th>
+                <th>Dispense Start</th>
+                <th>Dispense End</th>
                 <th></th>
 
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>e1</td>
-                <td>5</td>
-                <td>3</td>
-                <td><button class="btn" title="click to Edit">12:45</button></td>
-                <td title="Click to Edit"><button class="btn" title="click to Edit">12:50</button></td>
-                <td><button class="btn" title="click to Edit">1:15</button></td>
-                <td><button class="btn" title="click to Edit">1:20</button></td>
-                <td><a href="#" class="bi bi-trash"></a></td>
-            </tr>
+            @for (item of emergencyOrders; track $index) {
+
+                <tr>
+                    <td>{{item.tallyNo}}</td>
+                    <td>{{item.itemsOrdered}}</td>
+                    <td>{{item.itemsIssued}}</td>
+                    <td><button class="btn" title="click to Edit">{{item.billStart|date:'h:mm'}}</button></td>
+                    <td title="Click to Edit"><button class="btn" title="click to Edit">{{item.billEnd|date:'h:mm'}}</button></td>
+                    <td><button class="btn" title="click to Edit">{{item.dispenseStart|date:'h:mm'}}</button></td>
+                    <td><button class="btn" title="click to Edit">{{item.dispenseEnd|date:'h:mm'}}</button></td>
+                    <td><a href="#" class="bi bi-trash"></a></td>
+                </tr>
+            }
         </tbody>
     </table>
 </div>
