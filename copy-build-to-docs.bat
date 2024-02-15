@@ -5,4 +5,5 @@ FOR %%i IN (docs\*) DO IF /i NOT "%%~nxi"=="CNAME" IF /i NOT "%%~nxi"=="404.html
 
 xcopy /E /I dist\browser\assets docs\assets
 copy  dist\browser  docs\
+copy docs\index.html docs\404.html
 copy dist\*.txt docs\
