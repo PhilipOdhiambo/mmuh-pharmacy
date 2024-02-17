@@ -1,8 +1,8 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, take, lastValueFrom, Subject, BehaviorSubject, Subscription,} from 'rxjs';
+import { Observable, take, lastValueFrom, Subject, BehaviorSubject, Subscription, forkJoin,} from 'rxjs';
 import { map} from 'rxjs/operators'
-import { WorkloadTransaction } from './types';
+import { Inventory, OutOfStock, WorkloadTransaction } from './types';
 import { Firestore,docData, doc,setDoc, Timestamp } from '@angular/fire/firestore';
 
 
@@ -20,8 +20,9 @@ export class AppService {
     private http: HttpClient,
     private firestore:Firestore,
     ) { 
-      this.firestoreDocToBehaviorSubject('inventory/workloadTransactions','workloadTransactions',this.$workloadTransactions)    
-      this.firestoreDocToBehaviorSubject('inventory/inventory','inventory',this.$inventory)    
+      // this.firestoreDocToBehaviorSubject('inventory/workloadTransactions','workloadTransactions',this.$workloadTransactions)    
+      // this.firestoreDocToBehaviorSubject('inventory/inventory','inventory',this.$inventory) 
+      this.tracerList()   
     }
 
 
@@ -81,7 +82,7 @@ export class AppService {
 
   }
 
-
+  // Get next tally number from the server for any category
   getNextTally(param: string,cartegory:string) {
     const $request = this.doGet(param).pipe(
       map(arr => arr.reduce((acc:any,next:any)=>{
@@ -94,6 +95,25 @@ export class AppService {
      }, 0))
     )
     return lastValueFrom($request).then(res => res + 1)
+  }
+
+  tracerList() {
+    const osList = this.doGet("sheetName=os")
+
+    const tracerList = this.doGet("sheetName=inventory").pipe(
+      map(arr => (arr as Inventory[]).filter(item => item.IsTracerItem))      
+    )
+    
+    forkJoin({osList,tracerList}).subscribe({
+      next(res) {
+        const osListAsc = (res.osList as OutOfStock[]).sort((a,b)=> {
+          if(a.Date < b.Date) return -1
+          if(a.Date > b.Date) return 1
+          return 0          
+        })
+        console.log(osListAsc)
+      },
+    })
   }
 
 
