@@ -98,20 +98,32 @@ export class AppService {
   }
 
   tracerList() {
-    const osList = this.doGet("sheetName=os")
+    // Define observable to fetch os list and sort ascending from first date to last
+    const osListAscending = this.doGet("sheetName=os").pipe(
+      map(arr =>(arr as OutOfStock[]).sort((a,b)=> {
+        if(a.Date < b.Date) return -1
+        if(a.Date > b.Date) return 1
+        return 0          
+      }))
+    )
 
+    // Define observable to fetch tracer list from inventory
     const tracerList = this.doGet("sheetName=inventory").pipe(
       map(arr => (arr as Inventory[]).filter(item => item.IsTracerItem))      
     )
     
-    forkJoin({osList,tracerList}).subscribe({
+    // Combine the to observable to fetch as the same time the handle responses simultaneously
+    forkJoin({osListAscending,tracerList}).subscribe({
       next(res) {
-        const osListAsc = (res.osList as OutOfStock[]).sort((a,b)=> {
-          if(a.Date < b.Date) return -1
-          if(a.Date > b.Date) return 1
-          return 0          
+        // Defining the output object
+        const tracerListSummary:any = {}
+        res.tracerList.forEach(item => tracerListSummary[item.Id] = {
+          itemName:item.GenericDescription,
+          currentState:undefined,
+          daysOs:undefined,
+          daysAvailable:undefined
         })
-        console.log(osListAsc)
+
       },
     })
   }

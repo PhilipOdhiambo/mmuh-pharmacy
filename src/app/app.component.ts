@@ -23,7 +23,7 @@ import { ModalComponent } from './components/modal/modal.component';
           <a class="btn" href="">Workload Tracking</a>
         </li>
         <li>
-          <a class="btn" href="/bincard">Invetory Tracking</a>
+          <a class="btn" href="/bincard">Inventory Tracking</a>
         </li>
       </ul>
     </div>
