@@ -111,6 +111,7 @@ export class AppService {
     const tracerList = this.doGet("sheetName=inventory").pipe(
       map(arr => (arr as Inventory[]).filter(item => item.IsTracerItem))      
     )
+    return tracerList
     
     // Combine the to observable to fetch as the same time the handle responses simultaneously
     forkJoin({osListAscending,tracerList}).subscribe({
