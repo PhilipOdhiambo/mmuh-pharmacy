@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
+import { TracerListComponent } from '../../components/tracer/tracer-list/tracer-list.component';
+
 
 @Component({
   selector: 'app-bincard-page',
   standalone: true,
-  imports: [],
+  imports: [TracerListComponent],
   templateUrl: './bincard-page.component.html',
   styleUrl: './bincard-page.component.css'
 })

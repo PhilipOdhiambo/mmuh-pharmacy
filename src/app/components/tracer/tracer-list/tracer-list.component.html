@@ -1,0 +1,43 @@
+<table class="table table-sm">
+    <thead>
+        <tr>
+            <th scope="col">Code</th>
+            <th scope="col">Name</th>
+            <th scope="col">Availability</th>
+            <th scope="col"></th>
+        </tr>
+
+    </thead>
+    <tbody>
+        @for (item of tracerList; track $index) {
+        <tr>
+            <td>
+                {{item.Code}}
+            </td>
+            <td>
+                {{item.GenericDescription}}
+            </td>
+            <td>
+                {{item.IsAvailable==1?'Available':'O/s'}}
+                @if (item.IsAvailable==1) {
+                <div class="form-check form-switch">
+                    <input [checked]="item.IsAvailable==1" (change)="onButtonChange($event)" class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" >
+                </div>
+                }
+                @else {
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+                </div>
+                }
+            </td>
+
+
+
+            <td>
+                {{item.Code}}
+            </td>
+        </tr>
+        }
+
+    </tbody>
+</table>

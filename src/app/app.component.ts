@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { HomePageComponent } from './pages/home-page/home-page.component';
@@ -48,10 +48,11 @@ import { ModalComponent } from './components/modal/modal.component';
 })
 export class AppComponent implements OnInit {
   title = 'template-17';
+ 
 
   constructor(private dataService: AppService) { }
   ngOnInit() {
-
+  
 
   }
 

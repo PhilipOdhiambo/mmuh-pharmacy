@@ -21,7 +21,9 @@ export interface Inventory {
     Code:string
     GenericDescription:string 
     BrandName:string,
-    IsTracerItem:boolean
+    IsTracerItem:number,
+    IsActive:number,
+    IsAvailable:number
 }
 
 export interface OutOfStock {
