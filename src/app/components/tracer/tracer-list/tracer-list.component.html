@@ -1,40 +1,29 @@
-<table class="table table-sm">
-    <thead>
-        <tr>
-            <th scope="col">Code</th>
-            <th scope="col">Name</th>
-            <th scope="col">Availability</th>
-            <th scope="col"></th>
+<table class="table table-sm table-hover">
+    <thead >
+        <tr class="row">
+            <th scope="col" class="col-1">Code</th>
+            <th scope="col" class="col-4" >Name</th>
+            <th scope="col" class="col-1">Status</th>
+            <th scope="col" class="col-1"></th>
         </tr>
 
     </thead>
     <tbody>
-        @for (item of tracerList; track $index) {
-        <tr>
-            <td>
+        @for (item of tracerService.$tracerList|async; track $index) {
+        <tr class="row">
+            <td class="col-1">
                 {{item.Code}}
             </td>
-            <td>
+            <td class="col-4">
                 {{item.GenericDescription}}
             </td>
-            <td>
-                {{item.IsAvailable==1?'Available':'O/s'}}
-                @if (item.IsAvailable==1) {
-                <div class="form-check form-switch">
-                    <input [checked]="item.IsAvailable==1" (change)="onButtonChange($event)" class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" >
-                </div>
-                }
-                @else {
-                <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
-                </div>
-                }
+            <td class="col-1">
+               <app-tracer-status [item]="item"></app-tracer-status>          
             </td>
-
-
-
-            <td>
-                {{item.Code}}
+            
+            <td class="col-1">
+                {{item.IsAvailable==1?'Available':'Out of stock'}}
+         
             </td>
         </tr>
         }

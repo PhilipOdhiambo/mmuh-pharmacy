@@ -1,0 +1,9 @@
+@if (loadingState) {
+    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+  
+
+} @else {
+    <div class="form-check form-switch">
+        <input id="availability" [checked]="item.IsAvailable==1" (click)="statusChange()" class="form-check-input" type="checkbox" >
+    </div>               
+}               

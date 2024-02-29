@@ -10,7 +10,8 @@ import { Firestore,docData, doc,setDoc, Timestamp } from '@angular/fire/firestor
   providedIn: 'root'
 })
 export class AppService {
-  private url = 'https://script.google.com/macros/s/AKfycbzPJ75D_tyT18zLgJP4oedBCY9AekwO1GkaztuODzpJJhx12hbopUFs1XrfwUAuR-iPJQ/exec?'
+  // private url = 'https://script.google.com/macros/s/AKfycbzPJ75D_tyT18zLgJP4oedBCY9AekwO1GkaztuODzpJJhx12hbopUFs1XrfwUAuR-iPJQ/exec?'
+  private url = 'https://script.google.com/macros/s/AKfycbzn73lcEl0iUG5a7nk7dd0NZ7kI7vbOlPTR6PSlvSQbDXOIG7-3FOvbrr6eLTyxQMxNeg/exec?'
   subject = new Subject()
   $inventory = new BehaviorSubject<any>([])
   $workloadTransactions = new BehaviorSubject<any>([])
@@ -22,16 +23,15 @@ export class AppService {
     ) { 
       // this.firestoreDocToBehaviorSubject('inventory/workloadTransactions','workloadTransactions',this.$workloadTransactions)    
       // this.firestoreDocToBehaviorSubject('inventory/inventory','inventory',this.$inventory) 
-      this.tracerList()   
     }
 
 
-    googleSheetOutpatientsToFirestore() {
-      this.doGet("sheetName=outpatients").subscribe(res => {
-        this.setFirebaseDoc('inventory/workloadTransactions',{workloadTransactions:JSON.stringify(res)})
-      })
+    // googleSheetOutpatientsToFirestore() {
+    //   this.doGet("collection=outpatients").subscribe(res => {
+    //     this.setFirebaseDoc('inventory/workloadTransactions',{workloadTransactions:JSON.stringify(res)})
+    //   })
 
-    }
+    // }
     
  
     firestoreDocToBehaviorSubject(documentPath:string,field:string,behaviorSubject:BehaviorSubject<any>) {
@@ -73,14 +73,14 @@ export class AppService {
     })
   }
 
-  getWorkload(cartegory:string ) {
-    const request$ = this.doGet("sheetName=outpatients")
-    .pipe(
-      map(oupatients => oupatients.filter((p:any) => p.Cartegory == cartegory))
-    )
-    return lastValueFrom(request$)
+  // getWorkload(cartegory:string ) {
+  //   const request$ = this.doGet("sheetName=outpatients")
+  //   .pipe(
+  //     map(oupatients => oupatients.filter((p:any) => p.Cartegory == cartegory))
+  //   )
+  //   return lastValueFrom(request$)
 
-  }
+  // }
 
   // Get next tally number from the server for any category
   getNextTally(param: string,cartegory:string) {
@@ -97,37 +97,6 @@ export class AppService {
     return lastValueFrom($request).then(res => res + 1)
   }
 
-  tracerList() {
-    // Define observable to fetch os list and sort ascending from first date to last
-    const osListAscending = this.doGet("sheetName=os").pipe(
-      map(arr =>(arr as OutOfStock[]).sort((a,b)=> {
-        if(a.Date < b.Date) return -1
-        if(a.Date > b.Date) return 1
-        return 0          
-      }))
-    )
-
-    // Define observable to fetch tracer list from inventory
-    const tracerList = this.doGet("sheetName=inventory").pipe(
-      map(arr => (arr as Inventory[]).filter(item => item.IsTracerItem))      
-    )
-    return tracerList
-    
-    // Combine the to observable to fetch as the same time the handle responses simultaneously
-    forkJoin({osListAscending,tracerList}).subscribe({
-      next(res) {
-        // Defining the output object
-        const tracerListSummary:any = {}
-        res.tracerList.forEach(item => tracerListSummary[item.Id] = {
-          itemName:item.GenericDescription,
-          currentState:undefined,
-          daysOs:undefined,
-          daysAvailable:undefined
-        })
-
-      },
-    })
-  }
 
 
   saveOutpatient(opdDoc:any) {

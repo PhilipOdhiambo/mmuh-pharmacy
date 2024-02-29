@@ -34,7 +34,7 @@ export class PrescriptionsComponent implements OnInit{
 
 
   fetchPrescriptions() {
-    this.dataService.getWorkload("prescription").then(res => this.prescriptions = res)
+    // this.dataService.getWorkload("prescription").then(res => this.prescriptions = res)
   }
 
 

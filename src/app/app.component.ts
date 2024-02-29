@@ -5,6 +5,7 @@ import { HomePageComponent } from './pages/home-page/home-page.component';
 import { BincardPageComponent } from './pages/bincard-page/bincard-page.component';
 import { AppService } from './app.service';
 import { ModalComponent } from './components/modal/modal.component';
+import { TracerService } from './tracer.service';
 
 @Component({
   selector: 'app-root',
@@ -50,10 +51,9 @@ export class AppComponent implements OnInit {
   title = 'template-17';
  
 
-  constructor(private dataService: AppService) { }
+  constructor() { }
   ngOnInit() {
   
-
   }
 
 

@@ -30,7 +30,7 @@ export class TsheetOrdersComponent {
 
 
   fetchTWorkloadList() {
-    this.dataService.getWorkload("tsheet").then(res => this.cartegoryList = res)
+    // this.dataService.getWorkload("tsheet").then(res => this.cartegoryList = res)
   }
 
 

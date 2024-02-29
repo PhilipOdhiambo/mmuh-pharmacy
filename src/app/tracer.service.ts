@@ -1,8 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { Inventory } from './types';
-import { } from './http.service';
 import { HttpClient } from '@angular/common/http';
-import { Observable, map } from 'rxjs';
+import { BehaviorSubject, Observable, map } from 'rxjs';
 
 
 
@@ -11,18 +10,21 @@ import { Observable, map } from 'rxjs';
   providedIn: 'root'
 })
 export class TracerService {
-  protected tracerList: Inventory[] = []
+  tracerList: Inventory[] = []
+  $tracerList = new BehaviorSubject<Inventory[]>([])
 
-  protected url = 'https://script.google.com/macros/s/AKfycbzPJ75D_tyT18zLgJP4oedBCY9AekwO1GkaztuODzpJJhx12hbopUFs1XrfwUAuR-iPJQ/exec?'
+  protected url = 'https://script.google.com/macros/s/AKfycbyMsZATCfxRZVP6kbeS34tTpHGOESRFYLNGoqquTQXHPWD0_MaNtzHTUvfPO7RfVHFA/exec?'
 
-  http = inject(HttpClient)
-  constructor() {
+  constructor(private http:HttpClient) {
     
    }
 
   getAllTracerList():Observable<Inventory[]> {
-    return this.http.get<Inventory[]>(this.url + "sheetName=inventory").pipe(
-      map(items=> items.filter(item => item.IsTracerItem == 1))
-    )
+    return this.http.get<Inventory[]>(this.url + "collection=tracer")
+  }
+
+  editTracer(id:string,value:number):Observable<Inventory[]>{
+    let data = {Id:id,value}
+    return this.http.post<Inventory[]>(this.url + "collection=tracer&method=update",JSON.stringify(data))
   }
 }
