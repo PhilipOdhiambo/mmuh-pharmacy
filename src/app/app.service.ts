@@ -3,24 +3,23 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, take, lastValueFrom, Subject, BehaviorSubject, Subscription, forkJoin,} from 'rxjs';
 import { map} from 'rxjs/operators'
 import { Inventory, OutOfStock, WorkloadTransaction } from './types';
-import { Firestore,docData, doc,setDoc, Timestamp } from '@angular/fire/firestore';
+import { Firestore,docData, doc,setDoc } from '@angular/fire/firestore';
+import { UrlService } from './service/url.service';
 
 
 @Injectable({
   providedIn: 'root'
 })
-export class AppService {
-  // private url = 'https://script.google.com/macros/s/AKfycbzPJ75D_tyT18zLgJP4oedBCY9AekwO1GkaztuODzpJJhx12hbopUFs1XrfwUAuR-iPJQ/exec?'
-  private url = 'https://script.google.com/macros/s/AKfycbzn73lcEl0iUG5a7nk7dd0NZ7kI7vbOlPTR6PSlvSQbDXOIG7-3FOvbrr6eLTyxQMxNeg/exec?'
+export class AppService extends UrlService {
   subject = new Subject()
   $inventory = new BehaviorSubject<any>([])
   $workloadTransactions = new BehaviorSubject<any>([])
   inventorySubscription?:Subscription;
 
   constructor(
-    private http: HttpClient,
     private firestore:Firestore,
     ) { 
+      super()
       // this.firestoreDocToBehaviorSubject('inventory/workloadTransactions','workloadTransactions',this.$workloadTransactions)    
       // this.firestoreDocToBehaviorSubject('inventory/inventory','inventory',this.$inventory) 
     }
@@ -32,7 +31,8 @@ export class AppService {
     //   })
 
     // }
-    
+
+
  
     firestoreDocToBehaviorSubject(documentPath:string,field:string,behaviorSubject:BehaviorSubject<any>) {
       docData(doc(this.firestore, documentPath)).subscribe((res) => {
