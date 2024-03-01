@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { Inventory } from './types';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable, map } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 
 
@@ -13,7 +13,7 @@ export class TracerService {
   tracerList: Inventory[] = []
   $tracerList = new BehaviorSubject<Inventory[]>([])
 
-  protected url = 'https://script.google.com/macros/s/AKfycbyMsZATCfxRZVP6kbeS34tTpHGOESRFYLNGoqquTQXHPWD0_MaNtzHTUvfPO7RfVHFA/exec?'
+  protected url = 'https://script.google.com/macros/s/AKfycbyCXL4xA1YreJ4l9fGk0OVhKNs0hUrr305COhs7iD-zYRw4pvxrhwir7ftLvTNIxJgvrg/exec?'
 
   constructor(private http:HttpClient) {
     
