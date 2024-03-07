@@ -19,9 +19,14 @@ export class PrescriptionService extends UrlService {
     return this.http.get<PrescriptionI[]>(this.url + "collection=precription")
   }
 
+  fetchOne(id:string):PrescriptionI | null {
+    
+    return null
+  }
+
   create(presc: PrescriptionI) {
     
-    return this.http.post<PrescriptionI[]>(this.url + "collection=prescription&method=update", JSON.stringify(presc))
+    return this.http.post<PrescriptionI[]>(this.url + "collection=prescription&method=create", JSON.stringify(presc))
 
   }
 
