@@ -72,13 +72,16 @@ export interface Unit {
 
 
 export interface Inventory {
-    Id:string,
-    Code:string
-    GenericDescription:string 
+    Id:number,
+    Code:string,
+    GenericDescription:string,
     BrandName:string,
     IsTracerItem:number,
     IsActive:number,
-    IsAvailable:number
+    IsAvailable:number,
+    StoreQty:number,
+    BufferQty:number,
+    PRQty:number
 }
 
 export interface OutOfStock {
@@ -92,4 +95,17 @@ export interface OutOfStock {
     BrandName:string,
     IsFormularly:boolean,
     OsToDate:number
+}
+
+export interface SuppliesDelivery {
+    Date:string,
+    itemId:number,
+    certNo:number,
+    supplierId:number,
+    localPurchaseNo:number,
+    deliveryNoteNo:number,
+    qty:number,
+    batchNo:number,
+    expiryDate:string,
+    purchasePrice:string
 }

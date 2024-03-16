@@ -22,7 +22,7 @@ export class TracerService extends UrlService {
     return this.http.get<Inventory[]>(this.url + "collection=tracer")
   }
 
-  editTracer(id:string,value:number):Observable<Inventory[]>{
+  editTracer(id:number,value:number):Observable<Inventory[]>{
     let data = {Id:id,value}
     return this.http.post<Inventory[]>(this.url + "collection=tracer&method=update",JSON.stringify(data))
   }
