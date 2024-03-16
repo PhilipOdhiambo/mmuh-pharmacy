@@ -3,16 +3,14 @@ import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { HomePageComponent } from './pages/home-page/home-page.component';
 import { BincardPageComponent } from './pages/bincard-page/bincard-page.component';
-import { AppService } from './app.service';
 import { ModalComponent } from './components/modal/modal.component';
-import { TracerService } from './tracer.service';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [CommonModule, RouterOutlet,
     HomePageComponent,
-    BincardPageComponent, ModalComponent
+    BincardPageComponent, ModalComponent,
   ],
   template: `
   <nav class="container">
