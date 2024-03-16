@@ -39,17 +39,17 @@ import { ModalComponent } from './components/modal/modal.component';
     </div>
   </nav>
 
+  
+
+
   <router-outlet></router-outlet>
   `,
   styles: `
-  h1 {color:yellow;}
+
   `
 })
 export class AppComponent implements OnInit {
-  title = 'template-17';
- 
-
-  constructor() { }
+    constructor() { }
   ngOnInit() {
   
   }
