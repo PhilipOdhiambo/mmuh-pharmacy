@@ -16,8 +16,8 @@
     user?:string
 }
  export interface PrescriptionI {
-    id:string | null
-    Date:Date 
+    id:string
+    Date?:string 
     tallyNo?: string
     noOfDocs?:number
     itemsOrdered?:number

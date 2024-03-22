@@ -1,4 +1,16 @@
-<table class="table table-sm table-hover">
+import { Component, OnInit, inject } from '@angular/core';
+import { TracerService } from '../../services/tracer.service';
+import { Inventory } from '../../types';
+import { TracerStatusComponent } from './tracer-status.component';
+import { AsyncPipe } from '@angular/common';
+
+@Component({
+  selector: 'app-tracer-list',
+  standalone: true,
+  imports: [TracerStatusComponent,AsyncPipe],
+  styles: ``,
+  template:`
+  <table class="table table-sm table-hover">
     <thead >
         <tr class="row">
             <th scope="col" class="col-1">Code</th>
@@ -30,3 +42,20 @@
 
     </tbody>
 </table>
+  `
+})
+export class TracerListComponent implements OnInit {
+
+  tracerService = inject(TracerService)
+
+  constructor(){
+  }
+
+
+
+  ngOnInit(): void {    
+    this.tracerService.getAllTracerList().subscribe(res => this.tracerService.$tracerList.next(res))
+  }
+
+
+}

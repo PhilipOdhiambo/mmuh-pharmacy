@@ -1,4 +1,18 @@
-<div>
+import { Component, OnInit, inject } from '@angular/core';
+import { WorkloadTransaction } from '../types';
+import { AppService } from '../services/app.service';
+import { DatePipe, NgIf } from '@angular/common';
+@Component({
+  selector: 'app-emergency-orders',
+  standalone: true,
+  imports: [
+    DatePipe
+  ],
+  styles:`
+
+  `,
+  template: `
+  <div>
     <table class="table">
         <thead>
             <tr>
@@ -40,3 +54,23 @@
         </tbody>
     </table>
 </div>
+  `
+})
+export class EmergencyOrdersComponent implements OnInit {
+  emergencyOrders:WorkloadTransaction[] = []
+  appService = inject(AppService)
+
+  constructor() {
+    this.appService.$workloadTransactions.subscribe(res => {
+      this.emergencyOrders =  (res as WorkloadTransaction[]).filter(e => {
+        return (e.Cartegory == 'emergency')
+      })
+    })
+    
+  }
+
+  ngOnInit(): void {
+    
+    
+  }
+}

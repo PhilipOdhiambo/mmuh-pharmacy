@@ -4,8 +4,10 @@ import { Component } from '@angular/core';
   selector: 'app-s11-orders',
   standalone: true,
   imports: [],
-  templateUrl: './s11-orders.component.html',
-  styleUrl: './s11-orders.component.css'
+  styles: ``,
+  template: `
+  <p>s11-orders works!</p>
+  `,
 })
 export class S11OrdersComponent {
 

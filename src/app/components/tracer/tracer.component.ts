@@ -4,8 +4,8 @@ import { Component } from '@angular/core';
   selector: 'app-tracer',
   standalone: true,
   imports: [],
-  templateUrl: './tracer.component.html',
-  styleUrl: './tracer.component.css'
+  styles: ``,
+  template:``,
 })
 export class TracerComponent {
 

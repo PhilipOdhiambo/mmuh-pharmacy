@@ -1,5 +1,5 @@
 import { Component,ElementRef,Input, ViewChild, EventEmitter, Output, OnInit, AfterViewInit} from '@angular/core';
-import { AppService } from '../../app.service';
+import { AppService } from '../../services/app.service';
 import {FormsModule} from '@angular/forms';
 import { DatePipe } from '@angular/common';
 

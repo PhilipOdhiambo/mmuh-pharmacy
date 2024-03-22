@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { TracerListComponent } from '../../components/tracer/tracer-list/tracer-list.component';
+import { TracerListComponent } from '../../components/tracer/tracer-list.component';
 
 
 @Component({

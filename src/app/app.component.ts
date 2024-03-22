@@ -4,6 +4,8 @@ import { RouterOutlet } from '@angular/router';
 import { HomePageComponent } from './pages/home-page/home-page.component';
 import { BincardPageComponent } from './pages/bincard-page/bincard-page.component';
 import { ModalComponent } from './components/modal/modal.component';
+import { PrescriptionService } from './services/prescription.service';
+import { PrescriptionI } from './types';
 
 @Component({
   selector: 'app-root',
@@ -39,9 +41,6 @@ import { ModalComponent } from './components/modal/modal.component';
     </div>
   </nav>
 
-  
-
-
   <router-outlet></router-outlet>
   `,
   styles: `
@@ -49,9 +48,15 @@ import { ModalComponent } from './components/modal/modal.component';
   `
 })
 export class AppComponent implements OnInit {
-    constructor() { }
+  prescriptionService = inject(PrescriptionService)
+  constructor() {
+    // this.prescriptionService.fetchOne("2024-02-03T13:38:12.851Z").subscribe(res=> console.log(res))
+    // this.prescriptionService.create({Date: new Date().toISOString()} as PrescriptionI)
+    this.prescriptionService.deleteOne("2024-03-22T07:39:47.231Z").then(res=>res)
+    this.prescriptionService.prescriptions.subscribe(res => console.log(res))
+  }
   ngOnInit() {
-  
+
   }
 
 
